@@ -47,7 +47,8 @@ class FILE_MANAGER
         void Read_Extension(char* filename, char* ext);
         //Write
         template<class T1>void Write_dat(T1* t, int nt, char* path); //Writes a .dat file listing triagnles indexes (normals are not printed!)
-        template<class T1>void Write_m(T1* p, int N, int* t, int n, char* path) ;
+		template<class T1>void Write_m(T1* p, int N, int* t, int n, char* path);
+		template<class T1>void Write_obj(T1* p, int N, int* t, int n, char* path);
         void Write_stl(double* inputp, int* t, int nt, char* path);
 
     private:
@@ -68,7 +69,7 @@ void FILE_MANAGER::Write_dat(T1* t, int nt, char* path) //Writes a .dat file lis
     int i, c;
     size_t nwritten;
     FILE* pFile;
-    pFile = fopen(path, "wb"); //wb per dire che il file è binario
+    pFile = fopen(path, "wb"); //wb per dire che il file ?binario
 
     //TRIANGLES
     //first line (the number of triangles)
@@ -97,8 +98,13 @@ void FILE_MANAGER::Write_m(T1* p, int N, int* t, int nt, char* path)
     ofstream myfile;
     myfile.open(path);
 
+	myfile << "clc;\n";
+	myfile << "close all;\n";
+	myfile << "clear;\n";
+	myfile << "dbstop if error;\n";
 
     //POINTS
+
     myfile << "p=[\n";
     c = 0;
     for (i = 0; i < N; i++)
@@ -125,13 +131,42 @@ void FILE_MANAGER::Write_m(T1* p, int N, int* t, int nt, char* path)
     myfile << "trisurf(t,p(:,1),p(:,2),p(:,3));";
 
     myfile.close();
+}
+template<class T1>
+void FILE_MANAGER::Write_obj(T1* p, int N, int* t, int nt, char* path)
+{
+
+	int i, c;
+
+	ofstream myfile;
+	myfile.open(path);
 
 
 
+	//POINTS
+	
+	c = 0;
+	for (i = 0; i < N; i++)
+	{
+		myfile << "v " << p[c] << " " << p[c + 1] << " " << p[c + 2] << endl;
+		c = c + 3;
+	}
+	myfile << "\n";
 
+	//TRIANGLES
+	
+	c = 0;
+	for (i = 0; i < nt; i++)
+	{
+		if (t[c] >= 0)
+		{
+			myfile << "f " << t[c]+1 << " " << t[c + 1]+1 << " " << t[c + 2]+1 << endl;
+		}
+		c = c + 3;
+	}
+	myfile.close();
 
 }
-
 void FILE_MANAGER::Write_stl(double* inputp, int* inputt, int nt, char* path)
 
 {
@@ -145,7 +180,7 @@ void FILE_MANAGER::Write_stl(double* inputp, int* inputt, int nt, char* path)
     t = (Triangle*)inputt;
 
 
-    pFile = fopen(path, "wb"); //wb per dire che il file è binario
+    pFile = fopen(path, "wb"); //wb per dire che il file ?binario
 
     char header[80] = {"GLProduct"};
 

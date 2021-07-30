@@ -115,7 +115,7 @@ void Random(arr* a, int N, arr min, arr max) //Generates random values between m
     int i;
     for (i = 0; i < N; i++)
     {
-        a[i] = min + (arr)rand() / RAND_MAX * max;
+        a[i] = min + (arr)rand() / RAND_MAX * (max - min);
     }
 }
 

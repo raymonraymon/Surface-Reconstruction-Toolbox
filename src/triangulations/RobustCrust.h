@@ -297,7 +297,7 @@ void RCRUST::AddShield(Coord3D* ps, int n)
 
     //Seed the random generatom to have always the same random numbers
 
-    Random(u, n, (double) 0, (double) 1);
+    Random(u, n, (double) -1, (double) 1);
     Random(t, n, (double) 0, (double)2 * M_PI );
 
     //z equals u;
@@ -308,7 +308,7 @@ void RCRUST::AddShield(Coord3D* ps, int n)
     //r = √(1−z2);
     for (i = 0; i < n; i++)
     {
-        r[i] = sqrt(1 - u[i] * u[i]);
+        r[i] = 2*sqrt(1 - u[i] * u[i]);
     }
     // x and y
     for (i = 0; i < n; i++)
@@ -326,6 +326,13 @@ void RCRUST::AddShield(Coord3D* ps, int n)
 
     }
 
+#if 0
+	cout << "Shield Points...\n";
+	for (i = 0; i < n; i++)
+	{
+		cout << "v " << ps[i].x << " " << ps[i].y << " " << ps[i].z << "\n";
+	}
+#endif
 
     Deallocate(&u);
     Deallocate(&r);
@@ -470,7 +477,7 @@ void RCRUST::AnalyzeModel()
     dy = Model.c.y - Model.My;
     dz = Model.c.z - Model.Mz;
 
-    Model.r = 2 * sqrt(dx * dx + dy * dy + dz * dz); //radius =radius*2
+    Model.r = 1 * sqrt(dx * dx + dy * dy + dz * dz); //radius =radius*2
 
 }
 

@@ -91,7 +91,7 @@ void QuickDelWrapper(double* p, int N, int* t, int* nt) //converts input and out
         }
     }
 
-    //T.~QUICKDEL2D();//destroy triagnulation object(non c'è n'è bisogno il costruttore è chiamamto automaticamente
+    //T.~QUICKDEL2D();//destroy triagnulation object(non c'?n'?bisogno il costruttore ?chiamamto automaticamente
 }
 
 
